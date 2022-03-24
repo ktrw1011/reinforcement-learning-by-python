@@ -14,6 +14,7 @@ class MonteCarloAgent(ELAgent):
         self.init_log()
         # n=4 [0, 1, 2, 3]
         actions = list(range(env.action_space.n))
+        # {: [0, 0, 0, 0]}
         self.Q = defaultdict(lambda: [0]*len(actions))
         N = defaultdict(lambda: [0]*len(actions))
 
@@ -26,10 +27,20 @@ class MonteCarloAgent(ELAgent):
             while not done:
                 if render:
                     env.render()
-
+                
+                # 現在の状態をもとに、次のアクションを決定する
+                # 次のアクションはepsilonから
+                # 「活用」(最も報酬が高いアクションを選択)
+                # 「探索」(別のアクションを試す)
+                # を決定する
                 a = self.policy(s, actions)
+
+                # 穴に落ちる、ゴールに着くでdone=Trueとなる
                 n_state, reward, done, info = env.step(a)
+                
                 experience.append({"state":s, "action":a, "reward":reward})
+                
+                # stateを更新
                 s = n_state
             else:
                 self.log(reward)
