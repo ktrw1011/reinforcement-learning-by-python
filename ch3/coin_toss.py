@@ -55,8 +55,7 @@ class EpsilonGreedyAgent:
         self.experiences = []
 
     def policy(self) -> int:
-        """トスするコインを選ぶ
-        """
+        """トスするコインを選ぶ"""
         coins = range(len(self.V))
 
         print_debug(f"現在のコインを投げたときの期待値は {self.V}", self.verbose)

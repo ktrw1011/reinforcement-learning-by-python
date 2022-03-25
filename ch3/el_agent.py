@@ -12,6 +12,9 @@ class ELAgent:
         if np.random.random() < self.epsilon:
             return np.random.randint(len(actions))
 
+        # 現在のstateで最も報酬期待値が高いものを選択する
+        # コイントスではstateに依存しないのでVから選択していたが
+        # 今回はVがstateに依存するのでQ[s]という形
         if s in self.Q and sum(self.Q[s]) != 0:
             return np.argmax(self.Q[s])
 
